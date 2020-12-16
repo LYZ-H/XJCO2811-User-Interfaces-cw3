@@ -1,5 +1,6 @@
 
 #include <QScrollArea>
+#include <QScrollBar>
 #include <iostream>
 #include <QVideoWidget>
 #include <QSlider>
@@ -59,29 +60,34 @@ void ResponsiveLayout::landscapeMode(QFrame *frame, QScrollArea *qw, QVideoWidge
                                      FullScreenButton *fullScreen, videoSearch *searchBox,
                                      QComboBox *combo, const QRect &r) {
     if (qw) {
-        qw->setGeometry(0.8*r.width(),r.y(), r.width() - (0.8 * r.width()), r.height());
-    } else if (fullScreen) {
-        fullScreen->setGeometry(r.x() + 5 + (0.8*r.width() - 5 - 120),0.8*r.height() - 65,120, 30);
+        qw->setGeometry(r.width() - 250, r.y(), 250, r.height());
     } else if (videoWidget && !videoWidget->isFullScreen()) {
-        videoWidget->setGeometry(0+r.x(),0,0.8*r.width(), 0.8*r.height() - 70);
+        videoWidget->setGeometry(0 + r.x(), 0, r.width() - 250, 0.8 * r.height() - 70);
     } else if (videoWidget && videoWidget->isFullScreen()) {
         videoWidget->showFullScreen();
     } else if (volumeSlider) {
-        volumeSlider->setGeometry(r.x() + 5 + 265,0.8 * r.height() - 35 - 5 + 14,0.8*r.width() - 425,30);
+        volumeSlider->setGeometry(r.x() + 5 + 265,0.8 * r.height() - 35 - 5 + 14,
+                                  0.8 * r.width() - 475, 30);
     } else if (videoSlider) {
-        videoSlider->setGeometry(r.x() + 5,0.8*r.height() - 65, 0.8*r.width() - 10 - 60 - 60 - 120, 30);
-    } else if (combo && combo->whatsThis()=="playrate") {
-        combo->setGeometry(r.x() + 0.8*r.width() - 120,0.8 * r.height() - 35,120,30);
+        videoSlider->setGeometry(r.x() + 5, 0.8 * r.height() - 65,
+                                 0.8 * r.width() - 300, 30);
+    } else if (fullScreen) {
+        fullScreen->setGeometry(r.x() + 0.8 * r.width() - 190,
+                                0.8 * r.height() - 65, 0.2 * r.width() - 60, 30);
+    } else if (combo && combo->whatsThis() == "playrate") {
+        combo->setGeometry(r.x() + 0.8 * r.width() - 189, 0.8 * r.height() - 28, 0.2 * r.width() - 62, 30);
     } else if (searchBox) {
-        searchBox->setGeometry(r.x() + 5, 0.8*r.height() + 25, 240, 30);
-    } else if (combo && combo->whatsThis()=="sortby") {
-        combo->setGeometry(r.x() + 5 + 240 + 5,0.8*r.height() + 25, 240, 30);
-    } else if (frame->whatsThis()=="duration_label") {
-        frame->setGeometry(r.x() + 5 + (0.8*r.width() - 5 - 60 - 120),0.8*r.height() - 65,60, 30);
-    } else if (frame->whatsThis()=="length_label") {
-        frame->setGeometry(r.x() + 5 + (0.8*r.width() - 5 - 60 - 60 - 120),0.8*r.height() - 65,60, 30);
+        searchBox->setGeometry(r.x() + 5, 0.8 * r.height() + 25, 240, 30);
+    } else if (combo && combo->whatsThis() == "sortby") {
+        combo->setGeometry(r.x() + 5 + 240 + 5, 0.8 * r.height() + 25, 240, 30);
+    } else if (frame->whatsThis() == "duration_label") {
+        frame->setGeometry(r.x() + 0.8 * r.width() - 230,
+                           0.8 * r.height() - 65, 60, 30);
+    } else if (frame->whatsThis() == "length_label") {
+        frame->setGeometry(r.x() + 0.8 * r.width() - 290,
+                           0.8 * r.height() - 65, 60, 30);
     } else if (frame->whatsThis() == "buttons") {
-        frame->setGeometry(r.x(),0.8 * r.height() - 35 - 5,265, 60);
+        frame->setGeometry(r.x(), 0.8 * r.height() - 35 - 5, 265, 60);
     }
 }
 
@@ -90,29 +96,29 @@ void ResponsiveLayout::portraitMode(QFrame *frame, QScrollArea *qw, QVideoWidget
                                      FullScreenButton *fullScreen, videoSearch *searchBox,
                                      QComboBox *combo, const QRect &r) {
     if(qw) {
-        qw->setGeometry(0+r.x(),r.height()-195+r.y(),r.width(), 185);
-    } else if (fullScreen) {
-        fullScreen->setGeometry(r.width()-130,(0.625)*r.height()-25,120, 40);
+        qw->setGeometry(0 + r.x(), r.height() - 195 + r.y(), r.width(), 185);
     } else if (videoWidget && !videoWidget->isFullScreen()) {
-           videoWidget->setGeometry(0+r.x(),0,r.width(), 0.625*r.height()-35);
+           videoWidget->setGeometry(0 + r.x(), 0, r.width(), 0.625 * r.height() - 35);
     } else if (videoWidget && videoWidget->isFullScreen()) {
            videoWidget->showFullScreen();
     } else if (volumeSlider) {
-        volumeSlider->setGeometry(270+r.x(),(0.625)*r.height()+25,r.width()-425, 30);
+        volumeSlider->setGeometry(270 + r.x(), 0.625 * r.height() + 25, r.width() - 425, 30);
     } else if (videoSlider) {
-        videoSlider->setGeometry(r.x()+5,(0.625)*r.height()-25,r.width()-255, 30);
-    } else if (combo && combo->whatsThis()=="playrate") {
-        combo->setGeometry(r.width()-130,(0.625)*r.height()+25,120, 40);
+        videoSlider->setGeometry(r.x() + 5, 0.625 * r.height() - 25, r.width() - 255, 30);
+    } else if (fullScreen) {
+        fullScreen->setGeometry(r.width() - 130, 0.625 * r.height() - 25, 120, 40);
+    } else if (combo && combo->whatsThis() == "playrate") {
+        combo->setGeometry(r.width() - 130, 0.625 * r.height() + 25, 120, 40);
     } else if (searchBox) {
-        searchBox->setGeometry(10, r.height()-230+r.y(), 150, 25);
-    } else if (combo && combo->whatsThis()=="sortby") {
-        combo->setGeometry(210, r.height()-230+r.y(), 150, 25);
-    } else if (frame->whatsThis()=="length_label") {
-        frame->setGeometry(r.width()-230,(0.625)*r.height()-25,60, 30);
-    } else if (frame->whatsThis()=="duration_label") {
-        frame->setGeometry(r.width()-170,(0.625)*r.height()-25,60, 30);
+        searchBox->setGeometry(10, r.height() - 230 + r.y(), 150, 25);
+    } else if (combo && combo->whatsThis() == "sortby") {
+        combo->setGeometry(210, r.height() - 230 + r.y(), 150, 25);
+    } else if (frame->whatsThis() == "length_label") {
+        frame->setGeometry(r.width() - 230, 0.625 * r.height() - 25, 60, 30);
+    } else if (frame->whatsThis() == "duration_label") {
+        frame->setGeometry(r.width() - 170, 0.625 * r.height() - 25, 60, 30);
     } else if (frame->whatsThis() == "buttons") {
-        frame->setGeometry(5+r.x(),(0.625)*r.height()+10,265, 60);
+        frame->setGeometry(5 + r.x(), 0.625 * r.height() + 10, 265, 60);
     }
 }
 
@@ -139,6 +145,11 @@ QSize ResponsiveLayout::sizeHint() const {
 
 QSize ResponsiveLayout::minimumSize() const {
     return QSize(300,300);
+}
+
+// the all area of the outside of scroll parts
+void ResponsiveLayout::setScrollArea(QScrollArea *scrollArea) {
+    this -> scrollAreaPart = scrollArea;
 }
 
 ResponsiveLayout::~ResponsiveLayout() {

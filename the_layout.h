@@ -35,9 +35,11 @@ public:
     int count() const;
     QLayoutItem *itemAt(int) const;
     QLayoutItem *takeAt(int);
+    void setScrollArea(QScrollArea *sArea);
 
 private:
     QList<QLayoutItem*> list_;
+    QScrollArea *scrollAreaPart{};
 };
 
 #endif // THE_LAYOUT_H

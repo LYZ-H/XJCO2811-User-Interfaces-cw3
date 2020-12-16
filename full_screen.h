@@ -1,6 +1,7 @@
 #ifndef FULL_SCREEN_H
 #define FULL_SCREEN_H
 
+
 #include <QPushButton>
 #include <QWidget>
 

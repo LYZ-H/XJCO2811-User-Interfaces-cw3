@@ -1,6 +1,7 @@
 #ifndef NEXT_VIDEO_H
 #define NEXT_VIDEO_H
 
+
 #include <QPushButton>
 #include <QStyle>
 #include <QWidget>

@@ -1,6 +1,7 @@
 #ifndef VIDEO_SEARCH_H
 #define VIDEO_SEARCH_H
 
+
 #include <QPushButton>
 #include <QStyle>
 #include <QWidget>

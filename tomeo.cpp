@@ -154,8 +154,8 @@ int main(int argc, char *argv[]) {
 
 
     QScrollArea *videoScroller = new QScrollArea();
-    videoScroller->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    videoScroller->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+//    videoScroller->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+//    videoScroller->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     QFrame *inner = new QFrame(videoScroller);
 
     QLineEdit *searchBoxParent = new QLineEdit();
@@ -180,8 +180,10 @@ int main(int argc, char *argv[]) {
         QString qstr = QString::fromStdString(label);
         //adds a label with the filename underneath each thumbnail
         buttonLabel->setText(qstr);
-        layout->addWidget(button,2*(i/2),i%2);
-        layout->addWidget(buttonLabel,2*(i/2)+1,i%2);
+//        layout->addWidget(button,2*(i/2),i%2);
+//        layout->addWidget(buttonLabel,2*(i/2)+1,i%2);
+        layout->addWidget(button);
+        layout->addWidget(buttonLabel);
         button->init(&videos.at(i));
     }
     inner->setLayout(layout);
@@ -288,6 +290,7 @@ int main(int argc, char *argv[]) {
     // add the video and the buttons to the top level widget
     top->addWidget(videoWidget);
     top->addWidget(videoScroller);
+
     top->addWidget(volumeSlider);
     top->addWidget(videoSlider);
     top->addWidget(length_label);
