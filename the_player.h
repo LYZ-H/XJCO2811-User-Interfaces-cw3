@@ -16,8 +16,8 @@ class ThePlayer : public QMediaPlayer {
 Q_OBJECT
 
 private:
-    vector<TheButtonInfo>* infos{};
-    vector<TheButton*>* buttons{};
+    vector<TheButtonInfo>* infos;
+    vector<TheButton*>* buttons;
     QTimer* mTimer;
     long updateCount = 0;
 
@@ -25,10 +25,11 @@ public:
     size_t videoindex = 0;
 
 public:
-    ThePlayer() : QMediaPlayer(nullptr) {
+    ThePlayer() : QMediaPlayer(NULL) {
+        setVolume(0); // be slightly less annoying
         connect (this, SIGNAL(stateChanged(QMediaPlayer::State)), this,
                  SLOT(playStateChanged(QMediaPlayer::State)));
-        mTimer = new QTimer(nullptr);
+        mTimer = new QTimer(NULL);
         // 1000ms is one second between ...
         mTimer->setInterval(1000);
         mTimer->start();
@@ -49,8 +50,7 @@ public slots:
     void SetPosition(int position); //slot used for our video slider
     //slots used for our skip buttons
     void click(); //slot for the play/pause button
-    void nextVideo();
-    void prevVideo();
+
 
 private:
     bool playValue = false;
