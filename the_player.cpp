@@ -11,13 +11,8 @@ void ThePlayer::setContent(std::vector<TheButton*>* b, std::vector<TheButtonInfo
 }
 
 void ThePlayer::playStateChanged(QMediaPlayer::State ms) {
-    switch (ms) {
-        case QMediaPlayer::State::StoppedState:
-            // starting playing again...
-            play();
-            break;
-        default:
-            break;
+    if(ms == QMediaPlayer::State::StoppedState){
+        play();
     }
 }
 
@@ -31,7 +26,6 @@ void ThePlayer::SetPosition(int pos) {
     setPosition(pos);
 }
 
-
 void ThePlayer::setPlay(bool flipPlay) {
     playValue = !flipPlay;
 }
@@ -44,4 +38,3 @@ void ThePlayer::click() {
     }
     setPlay(playValue);
 }
-
