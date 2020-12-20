@@ -17,9 +17,30 @@ set(CMAKE_AUTORCC ON)
 
 
 add_executable(app
+        full_screen.h
+        length_label.h
+        next_video.h
+        skip_buttons.h
+        the_button.h
+        the_layout.h
+        the_pause.h
+        the_player.h
+        tomeo.h
+        video_search.h
+        video_slider.h
+        video_volume.h
+        video_widget.h
+
+        length_label.cpp
         the_button.cpp
         the_player.cpp
+        the_pause.cpp
+        the_player.cpp
         tomeo.cpp
+        video_search.cpp
+        video_slider.cpp
+        video_volume.cpp
+        video_widget.cpp
         )
 
 target_link_libraries(app Qt5::Core)
