@@ -4,10 +4,9 @@
 
 #include <QApplication>
 #include <QMediaPlayer>
+#include "the_button.h"
 #include <vector>
 #include <QTimer>
-
-#include "the_button.h"
 
 using namespace std;
 
@@ -26,6 +25,7 @@ public:
 
 public:
     ThePlayer() : QMediaPlayer(nullptr) {
+        setVolume(0); // be slightly less annoying
         connect (this, SIGNAL(stateChanged(QMediaPlayer::State)), this,
                  SLOT(playStateChanged(QMediaPlayer::State)));
         mTimer = new QTimer(nullptr);
@@ -47,8 +47,13 @@ public slots:
     // start playing this ButtonInfo
     void jumpTo (TheButtonInfo* button);
     void SetPosition(int position); //slot used for our video slider
+    void skipBack(bool skip);
+    void skipForward(bool skip);
+    void doPlayRate(int x);
     //slots used for our skip buttons
     void click(); //slot for the play/pause button
+    void nextVideo();
+    void prevVideo();
 
 private:
     bool playValue = false;
