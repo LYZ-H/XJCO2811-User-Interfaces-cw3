@@ -59,20 +59,20 @@ void ResponsiveLayout::landscapeMode(QFrame *frame, QScrollArea *qw, QVideoWidge
     if (qw) {
         qw->setGeometry(r.width() - 250, r.y(), 250, r.height());
     } else if (videoWidget && !videoWidget->isFullScreen()) {
-        videoWidget->setGeometry(0 + r.x(), 0, r.width() - 250, 0.8 * r.height() - 70);
+        videoWidget->setGeometry(0 + r.x(), 0, r.width() - 250, r.height() - 95);
     } else if (videoWidget && videoWidget->isFullScreen()) {
         videoWidget->showFullScreen();
     } else if (volumeSlider) {
         volumeSlider->setGeometry(r.x() + 255, r.height() - 46, 0.8 * r.width() - 475, 30);
     } else if (videoSlider) {
-        videoSlider->setGeometry(r.x() + 15, r.height() - 85, r.width() - 410, 30);
+        videoSlider->setGeometry(r.x() + 15, r.height() - 88, r.width() - 410, 30);
     } else if (fullScreen) {
         fullScreen->setGeometry(r.x() + 0.8 * r.width() - 205,
                                 r.height() - 50.5, 0.2 * r.width() - 60, 40);
     } else if (frame->whatsThis() == "duration_label") {
-        frame->setGeometry(r.x() + r.width() - 315, r.height() - 85, 60, 30);
+        frame->setGeometry(r.x() + r.width() - 315, r.height() - 88, 60, 30);
     } else if (frame->whatsThis() == "length_label") {
-        frame->setGeometry(r.x() + r.width() - 375, r.height() - 85, 60, 30);
+        frame->setGeometry(r.x() + r.width() - 375, r.height() - 88, 60, 30);
     } else if (frame->whatsThis() == "buttons") {
         frame->setGeometry(r.x(), r.height() - 60, 265, 60);
     }
@@ -125,11 +125,6 @@ QSize ResponsiveLayout::sizeHint() const {
 
 QSize ResponsiveLayout::minimumSize() const {
     return QSize(300,300);
-}
-
-// the all area of the outside of scroll parts
-void ResponsiveLayout::setScrollArea(QScrollArea *scrollArea) {
-    this -> scrollAreaPart = scrollArea;
 }
 
 ResponsiveLayout::~ResponsiveLayout() {

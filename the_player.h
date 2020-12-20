@@ -4,9 +4,10 @@
 
 #include <QApplication>
 #include <QMediaPlayer>
-#include "the_button.h"
 #include <vector>
 #include <QTimer>
+
+#include "the_button.h"
 
 using namespace std;
 
@@ -49,7 +50,6 @@ public slots:
     void SetPosition(int position); //slot used for our video slider
     void skipBack(bool skip);
     void skipForward(bool skip);
-    void doPlayRate(int x);
     //slots used for our skip buttons
     void click(); //slot for the play/pause button
     void nextVideo();
