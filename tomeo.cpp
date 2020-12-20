@@ -27,6 +27,7 @@
 #include <QScrollArea>
 #include <QLineEdit>
 #include <QComboBox>
+
 #include "the_layout.h"
 #include "video_slider.h"
 #include "skip_buttons.h"

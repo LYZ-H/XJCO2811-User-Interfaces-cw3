@@ -127,11 +127,6 @@ QSize ResponsiveLayout::minimumSize() const {
     return QSize(300,300);
 }
 
-// the all area of the outside of scroll parts
-void ResponsiveLayout::setScrollArea(QScrollArea *scrollArea) {
-    this -> scrollAreaPart = scrollArea;
-}
-
 ResponsiveLayout::~ResponsiveLayout() {
     QLayoutItem *item;
     while ((item = takeAt(0))) {
