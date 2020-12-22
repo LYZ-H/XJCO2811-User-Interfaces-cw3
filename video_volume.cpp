@@ -10,11 +10,11 @@ void VolumeButton::clicked()
 {
 
     if (!muteValue){
-        setIcon(style()->standardIcon(QStyle::SP_MediaVolumeMuted));
+        setIcon(QIcon(":/muteButton.svg"));
         //as usual, QStyle is used for the button icons
         emit moveSlider(0);
     } else {
-        setIcon(style()->standardIcon(QStyle::SP_MediaVolume));
+        setIcon(QIcon(":/volume.svg"));
         //button icon changes depending on if muted or not
         emit(moveSlider(10)); //set to this value on unmute
     }
@@ -25,14 +25,15 @@ void VolumeButton::clicked()
 void VolumeButton::changeIcon(int volVal) {
 
     if (volVal == 0) {
-        setIcon(style()->standardIcon(QStyle::SP_MediaVolumeMuted));
-    } if (volVal != 0 && muteValue == false) {
-        setIcon(style()->standardIcon(QStyle::SP_MediaVolume));
+        setIcon(QIcon(":/muteButton.svg"));
+    }
+    if (volVal != 0 && muteValue == false) {
+        setIcon(QIcon(":/volume.svg"));
     }
     //allows icon to be changed even if volume is changed via slider
 }
 
 //allows volume button to change slider
-void VolumeSlider::moveSlider(int volume) {
+void VolumeSlider::moveSlider(qint64 volume) {
     setSliderPosition(volume);
 }

@@ -10,8 +10,11 @@ class FullScreenButton : public QPushButton {
 public:
     FullScreenButton(QWidget *parent) : QPushButton( parent) {
         //constructor sets the geometry of the full screen button
-        setGeometry(0,0,100,100);
-        setText("Full Screen");
+        setIcon(QIcon(":/fill.svg"));
+        setFixedSize(40,40);
+        setFlat(true);
+        setStyleSheet("QPushButton:hover{border-radius:20;background-color:rgba(0,0,0,25); }"
+                    "QPushButton:pressed{border-radius:20;background-color:rgba(0,0,0,75); }");
    }
 
 };
