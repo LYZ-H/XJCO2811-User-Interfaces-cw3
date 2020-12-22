@@ -23,13 +23,13 @@
 #include <QMessageBox>
 #include <QtCore/QDir>
 #include <QtCore/QDirIterator>
+#include "the_player.h"
 #include <QScrollArea>
 #include <QLineEdit>
 #include <QComboBox>
-
-#include "the_player.h"
 #include "the_layout.h"
 #include "video_slider.h"
+#include "skip_buttons.h"
 #include "the_pause.h"
 #include "length_label.h"
 #include "video_widget.h"
@@ -50,7 +50,7 @@ vector<TheButtonInfo> thumbMatch(const QString &f, vector<TheButtonInfo> out, in
             // add to the output list
             out.emplace_back(url, ico, index);
         } else {
-            thumb = f.left(f.length() - 5) + "def.png";
+            thumb = ":/def.png";
             if (QFile(thumb).exists()) { // if a png thumbnail exists
                 imageReader = new QImageReader(thumb);
                 sprite = imageReader->read(); // read the thumbnail
@@ -65,7 +65,7 @@ vector<TheButtonInfo> thumbMatch(const QString &f, vector<TheButtonInfo> out, in
             }
         }
     } else {
-        thumb = f.left(f.length() - 5) + "def.png";
+        thumb = ":/def.png";
         if (QFile(thumb).exists()) { // if a png thumbnail exists
             auto *imageReader = new QImageReader(thumb);
             QImage sprite = imageReader->read(); // read the thumbnail
@@ -148,15 +148,15 @@ int main(int argc, char *argv[]) {
     auto *searchBoxParent = new QLineEdit();
     auto *searchBox = new videoSearch(videos, searchBoxParent);
     //need to connect here and update the videos vector to _videos from the searchBox object
-    videoSearch::connect(searchBox, SIGNAL(textChanged(QString)), 
-        searchBox, SLOT(search(QString)));
+    videoSearch::connect(searchBox, SIGNAL(textChanged(QString)),
+                         searchBox, SLOT(search(QString)));
 
     for (int i = 0; i < static_cast<int>(searchBox->_filteredVideos.size()); i++) {
         auto *button = new TheButton(buttonWidget);
         auto *buttonLabel = new label();
         // when clicked, tell the player to play.
-        TheButton::connect(button, SIGNAL(jumpTo(TheButtonInfo * )), 
-            player, SLOT (jumpTo(TheButtonInfo * )));
+        TheButton::connect(button, SIGNAL(jumpTo(TheButtonInfo * )),
+                           player, SLOT (jumpTo(TheButtonInfo * )));
         buttons.push_back(button);
 
         //as it shows filtered videos according to search
@@ -174,23 +174,45 @@ int main(int argc, char *argv[]) {
     inner->setLayout(layout);
     videoScroller->setWidget(inner);
     videoScroller->setWidgetResizable(true);
+
+    auto *muteButton = new VolumeButton(buttonWidget);
+    auto *volumeSlider = new VolumeSlider(buttonWidget);
+
+    VolumeSlider::connect(volumeSlider, SIGNAL(valueChanged(int)), player, SLOT(setVolume(int)));
+    VolumeSlider::connect(volumeSlider, SIGNAL(valueChanged(int)),
+                          muteButton, SLOT(changeIcon(int)));
+    //volume slider changing is connected to the player and the mute button
+    VolumeButton::connect(muteButton, SIGNAL(mute(bool)), player, SLOT(setMuted(bool)));
+    VolumeButton::connect(muteButton, SIGNAL(moveSlider(int)),
+                          volumeSlider, SLOT(moveSlider(int)));
     //mute button is connected to the player and slider
     auto *videoSlider = new VideoSlider(buttonWidget);
 
-    ThePlayer::connect(player, SIGNAL(durationChanged(qint64)), 
-        videoSlider, SLOT(SetRange(qint64)));
-    ThePlayer::connect(player, SIGNAL(positionChanged(qint64)), 
-        videoSlider, SLOT(SetValue(qint64)));
-    VideoSlider::connect(videoSlider, SIGNAL(valueChanged(int)), 
-        player, SLOT(SetPosition(int)));
+    ThePlayer::connect(player, SIGNAL(durationChanged(qint64)),
+                       videoSlider, SLOT(SetRange(qint64)));
+    ThePlayer::connect(player, SIGNAL(positionChanged(qint64)),
+                       videoSlider, SLOT(SetValue(qint64)));
+    VideoSlider::connect(videoSlider, SIGNAL(valueChanged(int)), player, SLOT(SetPosition(int)));
     //player and video slider are mutually connected
+
+    auto *forwardSkipBtn = new ForwardButton(buttonWidget);
+    auto *backwardSkipBtn = new BackwardButton(buttonWidget);
     auto *playBtn = new PlayButton(buttonWidget);
+
+    ForwardButton::connect(forwardSkipBtn, SIGNAL(clicked(bool)), player, SLOT(skipBack(bool)));
+    BackwardButton::connect(backwardSkipBtn, SIGNAL(clicked(bool)),
+                            player, SLOT(skipForward(bool)));
     //skip buttons connected to the player
 
     PlayButton::connect(playBtn, SIGNAL(clicked(bool)), player, SLOT(click()));
     ThePlayer::connect(player, SIGNAL(stateChanged(QMediaPlayer::State)),
                        playBtn, SLOT(setState(QMediaPlayer::State)));
 
+    auto *nextBtn = new NextButton(buttonWidget);
+    auto *backBtn = new PrevButton(buttonWidget);
+
+    NextButton::connect(nextBtn, SIGNAL(clicked()), player, SLOT(nextVideo()));
+    PrevButton::connect(backBtn, SIGNAL(clicked()), player, SLOT(prevVideo()));
     //this buttons connected to the player so it goes to next button while clicked
 
     auto *length_label = new LengthLabel(buttonWidget);
@@ -204,9 +226,21 @@ int main(int argc, char *argv[]) {
                        duration_label, SLOT (setLength(qint64)));
     //as video changes, length and duration labels will change
 
+    videoWidget->setFullScreen(false); //starts off not in fullscreen
+
+    auto *fullScreen = new FullScreenButton(buttonWidget);
+    muteButton->click();
+
+    FullScreenButton::connect(fullScreen, SIGNAL(clicked(bool)),
+                              videoWidget, SLOT(setFullScr(bool)));
+    //button connected to the video, to set it to fullscreen
+
     auto *frame = new QFrame();
     auto *buttonsBox = new QHBoxLayout();
+    buttonsBox->addWidget(backBtn);
     buttonsBox->addWidget(playBtn);
+    buttonsBox->addWidget(nextBtn);
+    buttonsBox->addWidget(muteButton);
     frame->setLayout(buttonsBox);
     //added a frame to set all buttons in hboxlayout
     frame->setWhatsThis("buttons");
@@ -219,14 +253,16 @@ int main(int argc, char *argv[]) {
     auto *top = new ResponsiveLayout();
     window.setLayout(top);
     window.setWindowTitle("Tomeo");
-    window.setMinimumSize(500, 500);
+    window.setMinimumSize(800, 800);
 
     // add the video and the buttons to the top level widget
     top->addWidget(videoWidget);
     top->addWidget(videoScroller);
+    top->addWidget(volumeSlider);
     top->addWidget(videoSlider);
     top->addWidget(length_label);
     top->addWidget(duration_label);
+    top->addWidget(fullScreen);
     top->addWidget(frame);
 
     // showtime!
