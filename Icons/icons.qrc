@@ -6,11 +6,8 @@
         <file>forwardSkipBtn.svg</file>
         <file>muteButton.svg</file>
         <file>next.svg</file>
-        <file>speed0.5.svg</file>
-        <file>speed1.0.svg</file>
-        <file>speed1.5.svg</file>
-        <file>speed2.0.svg</file>
         <file>volume.svg</file>
+        <file>iconfont.svg</file>
         <file>def.png</file>
     </qresource>
 </RCC>

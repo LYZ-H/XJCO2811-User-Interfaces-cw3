@@ -11,7 +11,6 @@ SOURCES += \
         form.cpp \
         length_label.cpp \
         the_button.cpp \
-        the_layout.cpp \
         the_pause.cpp \
         the_player.cpp \
         tomeo.cpp \
@@ -27,7 +26,6 @@ HEADERS += \
     length_label.h \
     next_video.h \
     the_button.h \
-    the_layout.h \
     the_pause.h \
     the_player.h \
     video_search.h \
