@@ -10,8 +10,11 @@ class NextButton : public QPushButton {
     Q_OBJECT
 public:
     NextButton(QWidget *parent) : QPushButton(parent) {
-        setIcon(style()->standardIcon(QStyle::SP_MediaSeekForward));
+        setIcon(QIcon(":/next.svg"));
         setFixedSize(40,40);
+        setFlat(true);
+        setStyleSheet("QPushButton:hover{border-radius:20;background-color:rgba(0,0,0,25); }"
+                    "QPushButton:pressed{border-radius:20;background-color:rgba(0,0,0,75); }");
    }
 
 };
@@ -20,8 +23,11 @@ class PrevButton : public QPushButton {
     Q_OBJECT
 public:
     PrevButton(QWidget *parent) : QPushButton(parent) {
-        setIcon(style()->standardIcon(QStyle::SP_MediaSeekBackward));
+        setIcon(QIcon(":/back.svg"));
         setFixedSize(40,40);
+        setFlat(true);
+        setStyleSheet("QPushButton:hover{border-radius:20;background-color:rgba(0,0,0,25); }"
+                    "QPushButton:pressed{border-radius:20;background-color:rgba(0,0,0,75); }");
    }
 
 };
