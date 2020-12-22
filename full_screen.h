@@ -17,7 +17,6 @@ public:
                       "QPushButton:pressed{border-radius:20;background-color:rgba(0,0,0,75); }"
                       );
     }
-
 };
 
 #endif // FULL_SCREEN_H

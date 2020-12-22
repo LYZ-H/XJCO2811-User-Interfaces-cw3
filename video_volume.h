@@ -11,6 +11,7 @@
 #include <QApplication>
 #include <QtDebug>
 
+
 class VolumeButton : public QPushButton {
 Q_OBJECT
 
@@ -54,11 +55,12 @@ Q_OBJECT
 public:
     explicit VolumeSlider(QWidget *parent) : QSlider(Qt::Horizontal, parent) {
         setTracking(true);
-        setRange(0, 6400);
-        setValue(1600);
+        setRange(0, 100);
+        setValue(0);
+        sliderMoved(0);
         setSingleStep(1);
         setStyleSheet("QSlider {\
-                          margin: 10 10 -4 -4;\
+                          margin: 6 10 -4 10;\
                           padding-bottom: 10px;\
                       }\
                       QSlider::add-page {\
@@ -78,7 +80,7 @@ public:
                       QSlider::handle {\
                           height: 8px;\
                           width: 8px;\
-                          margin: 0 0 0 0;\
+                          margin: -2 0 -2 0;\
                           border-radius: 7px;\
                           background: white;\
                           border: 1px solid black;\
@@ -89,6 +91,7 @@ protected:
     void mousePressEvent(QMouseEvent *event) override {
         if (event->button() == Qt::LeftButton) {
             double pos_val = minimum() + ((maximum() - minimum()) * event->x()) / width();
+            pos_val+=50*(pos_val-50)/100;
             setValue(pos_val);
             sliderMoved(pos_val);
             event->accept();
