@@ -255,7 +255,11 @@
                      <number>0</number>
                     </property>
                     <item row="0" column="0">
-                     <layout class="QHBoxLayout" name="controlLayout"/>
+                     <layout class="QHBoxLayout" name="controlLayout">
+                      <property name="spacing">
+                       <number>3</number>
+                      </property>
+                     </layout>
                     </item>
                    </layout>
                   </widget>
