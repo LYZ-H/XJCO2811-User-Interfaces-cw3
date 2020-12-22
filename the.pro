@@ -8,6 +8,7 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        form.cpp \
         length_label.cpp \
         the_button.cpp \
         the_layout.cpp \
@@ -20,6 +21,8 @@ SOURCES += \
         video_widget.cpp
 
 HEADERS += \
+    button_widget.h \
+    form.h \
     full_screen.h \
     length_label.h \
     next_video.h \
@@ -40,4 +43,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     Icons/icons.qrc
+
+FORMS += \
+    form.ui
 

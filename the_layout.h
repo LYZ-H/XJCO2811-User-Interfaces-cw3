@@ -23,10 +23,12 @@ public:
     void setGeometry(const QRect &rect);
     void landscapeMode(QFrame *frame, QScrollArea *qw, QVideoWidget *videoWidget,
                        QSlider *videoSlider, VolumeSlider *volumeSlider,
-                       FullScreenButton *fullScreen, const QRect &r);
+                       FullScreenButton *fullScreen, videoSearch *searchBox,
+                       QComboBox *combo, const QRect &r);
     void portraitMode(QFrame *frame, QScrollArea *qw, QVideoWidget *videoWidget,
-                      QSlider *videoSlider, VolumeSlider *volumeSlider,
-                      FullScreenButton *fullScreen, const QRect &r);
+                       QSlider *videoSlider, VolumeSlider *volumeSlider,
+                       FullScreenButton *fullScreen, videoSearch *searchBox,
+                       QComboBox *combo, const QRect &r);
     void addItem(QLayoutItem *item);
     QSize sizeHint() const;
     QSize minimumSize() const;

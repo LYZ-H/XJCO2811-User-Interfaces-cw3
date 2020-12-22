@@ -23,6 +23,24 @@ public:
 
      TheButton(QWidget *parent) :  QPushButton(parent) {
          setIconSize(QSize(200,110));
+         setStyleSheet("QPushButton {\
+                           border: 0px solid #333333;\
+                           padding: 4px;\
+                           border-radius: 10px;\
+                           background-color: rgb(255,255,255);\
+                       }\
+                       QPushButton:hover {\
+                           background-color: rgb(215,215,215);\
+                           border-color: #444444;\
+                       }\
+                       QPushButton:pressed {\
+                           background-color: rgb(180,180,180);\
+                           border-color: #333333;\
+                           color: yellow;\
+                       }\
+                       QPushButton:disabled {\
+                           color: #333333;\
+                       }");
          // if QPushButton clicked...then run clicked() below
          connect(this, SIGNAL(released()), this, SLOT (clicked() ));
     }
