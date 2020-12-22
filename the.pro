@@ -16,9 +16,11 @@ SOURCES += \
         tomeo.cpp \
         video_search.cpp \
         video_slider.cpp \
+        video_volume.cpp \
         video_widget.cpp
 
 HEADERS += \
+    full_screen.h \
     length_label.h \
     next_video.h \
     the_button.h \
@@ -27,10 +29,15 @@ HEADERS += \
     the_player.h \
     video_search.h \
     video_slider.h \
-    video_widget.h
+    video_volume.h \
+    video_widget.h \
+    skip_buttons.h
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    Icons/icons.qrc
 
