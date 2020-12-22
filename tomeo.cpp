@@ -26,8 +26,6 @@
 #include "the_player.h"
 #include <QScrollArea>
 #include <QLineEdit>
-#include <QComboBox>
-#include "the_layout.h"
 #include "video_slider.h"
 #include "skip_buttons.h"
 #include "the_pause.h"
@@ -97,19 +95,19 @@ vector<TheButtonInfo> getInfoIn(const string &loc) {
 
         if (f.contains("."))
 
-        #if defined(_WIN32)
+#if defined(_WIN32)
             if (f.contains(".wmv")) { // windows
-            #else
-                if (f.contains(".mp4") || f.contains("MOV"))  { // mac/linux
-            #endif
+#else
+                if (file_info.contains(".mp4") || file_info.contains("MOV"))  { // mac/linux
+#endif
                 out = thumbMatch(f, out, index);
                 index++;
             }
-        }
-        return out;
+    }
+    return out;
 }
 
-VideoSlider* init_slider(ThePlayer *player, ButtonWidget *buttonWidget) {
+VideoSlider *init_slider(ThePlayer *player, ButtonWidget *buttonWidget) {
     auto *videoSlider = new VideoSlider(buttonWidget);
 
     ThePlayer::connect(player, SIGNAL(durationChanged(qint64)),
@@ -118,12 +116,14 @@ VideoSlider* init_slider(ThePlayer *player, ButtonWidget *buttonWidget) {
                        videoSlider, SLOT(SetValue(qint64)));
     VideoSlider::connect(videoSlider, SIGNAL(sliderMoved(int)),
                          player, SLOT(SetPosition(int)));
+    VideoSlider::connect(videoSlider, SIGNAL(mouseRelease()),
+                         player, SLOT(mouseRelease()));
     //player and video slider are mutually connected
 
     return videoSlider;
 }
 
-VolumeSlider* init_volum(ThePlayer *player, ButtonWidget *buttonWidget) {
+VolumeSlider *init_volume(ThePlayer *player, ButtonWidget *buttonWidget) {
     auto *muteButton = buttonWidget->muteButton;
     auto *volumeSlider = new VolumeSlider(buttonWidget);
 
@@ -140,34 +140,7 @@ VolumeSlider* init_volum(ThePlayer *player, ButtonWidget *buttonWidget) {
     return volumeSlider;
 }
 
-QComboBox* init_sortby(ButtonWidget *buttonWidget) {
-    //sort by combo box
-    auto *sortby = new QComboBox(buttonWidget);
-    sortby->addItem("A-Z");
-    sortby->addItem("Date");
-    sortby->setWhatsThis("sortby");
-
-    return sortby;
-}
-
-QComboBox* init_rate(ThePlayer *player, ButtonWidget *buttonWidget) {
-    auto *playrate = new QComboBox(buttonWidget);
-    // for selecting playrate
-
-    playrate->addItem("0.5x speed", QVariant(0.5));
-    playrate->addItem("1x speed", QVariant(1));
-    playrate->addItem("2x speed", QVariant(2));
-    playrate->addItem("4x speed", QVariant(4));
-    playrate->setCurrentIndex(1);
-    playrate->setWhatsThis("playrate");
-
-    //connected combobox with playrate settting slot
-    QComboBox::connect(playrate, SIGNAL(activated(int)), player, SLOT(doPlayRate(int)));
-
-    return playrate;
-}
-
-LengthLabel* init_length(ThePlayer *player, ButtonWidget *buttonWidget) {
+LengthLabel *init_length(ThePlayer *player, ButtonWidget *buttonWidget) {
     auto *length_label = new LengthLabel(buttonWidget);
     length_label->setWhatsThis("length_label");
 
@@ -178,7 +151,7 @@ LengthLabel* init_length(ThePlayer *player, ButtonWidget *buttonWidget) {
     return length_label;
 }
 
-LengthLabel* init_duration(ThePlayer *player, ButtonWidget *buttonWidget) {
+LengthLabel *init_duration(ThePlayer *player, ButtonWidget *buttonWidget) {
     auto *duration_label = new LengthLabel(buttonWidget);
     duration_label->setWhatsThis("duration_label");
 
@@ -188,7 +161,7 @@ LengthLabel* init_duration(ThePlayer *player, ButtonWidget *buttonWidget) {
     return duration_label;
 }
 
-void init_button(ThePlayer *player, ButtonWidget *buttonWidget, VideoScreen* videoWidget) {
+void init_button(ThePlayer *player, ButtonWidget *buttonWidget, VideoScreen *videoWidget) {
     auto *forwardSkipBtn = buttonWidget->forwardSkipBtn;
     auto *backwardSkipBtn = buttonWidget->backwardSkipBtn;
     auto *playBtn = buttonWidget->playBtn;
@@ -218,27 +191,25 @@ void init_button(ThePlayer *player, ButtonWidget *buttonWidget, VideoScreen* vid
 
 }
 
-void init_frame(ButtonWidget *buttonWidget, Form* f) {
-        f->ui->controlLayout->addWidget(buttonWidget->forwardSkipBtn);
-        f->ui->controlLayout->addWidget(buttonWidget->backBtn);
-        f->ui->controlLayout->addWidget(buttonWidget->playBtn);
-        f->ui->controlLayout->addWidget(buttonWidget->nextBtn);
-        f->ui->controlLayout->addWidget(buttonWidget->backwardSkipBtn);
-        f->ui->volumeLayout->addWidget(buttonWidget->muteButton);
-        f->ui->fullLayout->addWidget(buttonWidget->fullScreen);
+void init_frame(ButtonWidget *buttonWidget, Form *f) {
+    f->ui->controlLayout->addWidget(buttonWidget->forwardSkipBtn);
+    f->ui->controlLayout->addWidget(buttonWidget->backBtn);
+    f->ui->controlLayout->addWidget(buttonWidget->playBtn);
+    f->ui->controlLayout->addWidget(buttonWidget->nextBtn);
+    f->ui->controlLayout->addWidget(buttonWidget->backwardSkipBtn);
+    f->ui->volumeLayout->addWidget(buttonWidget->muteButton);
+    f->ui->fullLayout->addWidget(buttonWidget->fullScreen);
 
 }
 
 void init_window(ThePlayer *player,
                  ButtonWidget *buttonWidget,
                  VideoScreen *videoWidget,
-                 Form* f) {
+                 Form *f) {
     VideoSlider *videoSlider = init_slider(player, buttonWidget);
-    VolumeSlider *volumeSlider = init_volum(player, buttonWidget);
+    VolumeSlider *volumeSlider = init_volume(player, buttonWidget);
     auto *length_label = init_length(player, buttonWidget);
     auto *duration_label = init_duration(player, buttonWidget);
-//    QComboBox *playrate = init_rate(player, buttonWidget);
-//    QComboBox *sortby = init_sortby(buttonWidget);
 
     init_frame(buttonWidget, f);
     f->ui->screenLayout->addWidget(videoWidget);
@@ -263,52 +234,49 @@ int main(int argc, char *argv[]) {
     qDebug() << "Qt version: " << QT_VERSION_STR << Qt::endl;
     QApplication app(argc, argv);
     vector<TheButtonInfo> videos = init_video(argc, argv);
-
-    auto *videoWidget = new VideoScreen();
-    videoWidget->setFullScreen(false); //starts off not in fullscreen
-    auto *player = new ThePlayer;
-    player->setVideoOutput(videoWidget);
-    auto *buttonWidget = new ButtonWidget();
     vector<TheButton *> buttons;// the buttons are arranged horizontally
+    auto *videoWidget = new VideoScreen();
+    auto *player = new ThePlayer;
+    auto *buttonWidget = new ButtonWidget();
     auto *layout = new QGridLayout();
-    buttonWidget->setLayout(layout);
-    init_button(player, buttonWidget, videoWidget);
     auto *videoScroller = new QScrollArea();
     auto *inner = new QFrame(videoScroller);
     auto *searchBoxParent = new QLineEdit();
-    auto *searchBox = new videoSearch(videos, searchBoxParent);
-    videoSearch::connect(searchBox,SIGNAL(textChanged(QString)),searchBox,SLOT(search(QString)));
-    for (int i = 0; i < static_cast<int>(videos.size()); i++) {
+    auto *searchBox = new VideoSearch(videos, searchBoxParent);
+    videoWidget->setFullScreen(false); //starts off not in fullscreen
+    player->setVideoOutput(videoWidget);
+    buttonWidget->setLayout(layout);
+    init_button(player, buttonWidget, videoWidget);
+    videoScroller->setFrameShape(QFrame::NoFrame);
+    VideoSearch::connect(searchBox, SIGNAL(textChanged(QString)), searchBox, SLOT(search(QString)));
+    for (auto &video : videos) {
         auto *button = new TheButton(buttonWidget);
-        auto *buttonLabel = new label();
-        TheButton::connect(button, SIGNAL(jumpTo(TheButtonInfo *)),
-                           player, SLOT (jumpTo(TheButtonInfo *)));
-        videoSearch::connect(searchBox, SIGNAL(textChanged(QString)),
+        auto *buttonLabel = new class label();
+        TheButton::connect(button, SIGNAL(jumpTo(TheButtonInfo * )),
+                           player, SLOT (jumpTo(TheButtonInfo * )));
+        VideoSearch::connect(searchBox, SIGNAL(textChanged(QString)),
                              button, SLOT(searchBtn(QString)));
-        videoSearch::connect(searchBox, SIGNAL(textChanged(QString)),
-                             buttonLabel, SLOT(searchlabel(QString)));
+        VideoSearch::connect(searchBox, SIGNAL(textChanged(QString)),
+                             buttonLabel, SLOT(searchLabel(QString)));
         buttons.push_back(button);
-        QString Qstr = videos.at(i).url->toString();
-        string label = Qstr.toStdString();
+        QString qString = video.url->toString();
+        string label = qString.toStdString();
         size_t found = label.find_last_of('/');
         label = label.substr(found + 1);
-        QString qstr = QString::fromStdString(label);
-        buttonLabel->setText(qstr);
+        QString stdString = QString::fromStdString(label);
         layout->addWidget(button);
         layout->addWidget(buttonLabel);
-        button->init(&videos.at(i));
+        button->init(&video);
     }
     inner->setLayout(layout);
     videoScroller->setWidget(inner);
     videoScroller->setWidgetResizable(true);
     player->setContent(&buttons, &videos);
-
-    Form f(nullptr, videoScroller, searchBox);
-
-    qDebug() << "Qt version: " << f.size().width() << Qt::endl;
+    Form f(nullptr, videoScroller, searchBox, player->label);
     init_window(player, buttonWidget, videoWidget, &f);
+    f.setWindowTitle("Tomeo");
+    f.setWindowIcon(QIcon(":/iconfont.svg"));
 
     f.show();
-
     return QApplication::exec();
 }

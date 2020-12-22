@@ -101,7 +101,7 @@
                </size>
               </property>
               <property name="styleSheet">
-               <string notr="true">background-color:rgb(180, 180, 180)</string>
+               <string notr="true">background-color:rgb(240,240,240)</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_5">
                <property name="spacing">
@@ -255,7 +255,11 @@
                      <number>0</number>
                     </property>
                     <item row="0" column="0">
-                     <layout class="QHBoxLayout" name="controlLayout"/>
+                     <layout class="QHBoxLayout" name="controlLayout">
+                      <property name="spacing">
+                       <number>3</number>
+                      </property>
+                     </layout>
                     </item>
                    </layout>
                   </widget>
@@ -385,6 +389,9 @@
                </property>
                <item>
                 <layout class="QHBoxLayout" name="searchLayout">
+                 <property name="spacing">
+                  <number>12</number>
+                 </property>
                  <item>
                   <spacer name="horizontalSpacer_3">
                    <property name="orientation">

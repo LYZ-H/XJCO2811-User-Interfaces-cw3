@@ -8,41 +8,45 @@
 #include <QLineEdit>
 #include <vector>
 #include <QLabel>
+#include <QGraphicsDropShadowEffect>
 #include "the_button.h"
 
 using namespace std;
 
-class videoSearch : public QLineEdit {
-    Q_OBJECT
+class VideoSearch : public QLineEdit {
+Q_OBJECT
 public:
-    videoSearch(vector<TheButtonInfo> videos, QWidget *parent) : QLineEdit(parent) {
+    VideoSearch(const vector<TheButtonInfo> &videos, QWidget *parent) : QLineEdit(parent) {
         _allVideos = videos;
         _filteredVideos = videos;
         setPlaceholderText("Search Video");
         setStyleSheet("QLineEdit{ "
-            "background-color:transparent;"
-            "border: 2px solid gray;"
-            "border-radius: 10px;"
-            "padding: 0 8px;"
-            "selection-background-color: darkgray;"
-            "font-size: 16px;}"
+                      "background-color:white;"
+                      "border: 2px solid gray;"
+                      "border-radius: 10px;"
+                      "padding: 0 8px;"
+                      "selection-background-color: darkgray;"
+                      "font-size: 16px;}"
         );
-
     }
+
 public:
     vector<TheButtonInfo> _filteredVideos;
     vector<TheButtonInfo> _allVideos;
 private slots:
-    void search(QString text);
+
+    void search(const QString &text);
 };
 
 class label : public QLabel {
-    Q_OBJECT
+Q_OBJECT
 public:
     label() : QLabel() {
     }
+
 private slots:
-    void searchlabel(QString text);
+
+    void searchLabel(const QString &text);
 };
 
 #endif // VIDEO_SEARCH_H

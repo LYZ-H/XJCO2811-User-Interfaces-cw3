@@ -17,7 +17,6 @@ public:
         setTracking(true);
         setRange(0, 0); //range is initially set to 0
         setStyleSheet("QSlider {\
-                          background-color: rgba(180, 180, 180, 0.7);\
                           margin: 10 -4 -4 -4;\
                           padding-bottom: 10px;\
                       }\
@@ -27,7 +26,7 @@ public:
                           border-radius: 2px;\
                       }\
                       QSlider::sub-page {\
-                          background-color:rgb(140,240,240);\
+                          background-color:rgb(0,163,217);\
                           height:5px;\
                           border-radius: 2px;\
                       }\
@@ -36,30 +35,36 @@ public:
                           height:6px;\
                       }\
                       QSlider::handle {\
-                          height: 14px;\
-                          width: 14px;\
+                          height: 13px;\
+                          width: 13px;\
                           margin: -4 0 -4 0;\
                           border-radius: 7px;\
                           background: white;\
+                          border: 1px solid black;\
                       }");
-
     }
 
 protected:
     void mousePressEvent(QMouseEvent *event) override {
         if (event->button() == Qt::LeftButton) {
-            if (orientation() == Qt::Vertical) {
-                setValue(minimum() + ((maximum() - minimum()) * (height() - event->y())) / height());
-                sliderMoved(minimum() + ((maximum() - minimum()) * (height() - event->y())) / height());
-            }
-            else{
-                setValue(minimum() + ((maximum() - minimum()) * event->x()) / width());
-                sliderMoved(minimum() + ((maximum() - minimum()) * event->x()) / width());
-            }
+            double pos_val = minimum() + ((maximum() - minimum()) * event->x()) / width();
+            setValue(pos_val);
+            sliderMoved(pos_val);
             event->accept();
         }
         QSlider::mousePressEvent(event);
     }
+
+    void mouseReleaseEvent(QMouseEvent *event) override {
+        mouseRelease();
+        event->accept();
+        QSlider::mouseReleaseEvent(event);
+    }
+
+private:
+signals:
+
+    void mouseRelease();
 
 private slots:
 
@@ -68,6 +73,5 @@ private slots:
     //this slot is used to set slider range to the correct duration
     void SetRange(qint64 volume);
 };
-
 
 #endif // VIDEO_SLIDER_H

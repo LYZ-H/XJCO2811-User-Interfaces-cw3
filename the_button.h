@@ -8,24 +8,23 @@
 class TheButtonInfo {
 
 public:
-    QUrl* url; // video file to play
-    QIcon* icon; // icon to display
-    int indexnum; // index of videos
+    QUrl *url; // video file to play
+    QIcon *icon; // icon to display
+    int index_num; // index of videos
 
-    TheButtonInfo (QUrl* url, QIcon* icon, int index) : url(url), icon(icon) , indexnum(index){}
+    TheButtonInfo(QUrl *url, QIcon *icon, int index) : url(url), icon(icon), index_num(index) {}
 };
 
 class TheButton : public QPushButton {
-    Q_OBJECT
+Q_OBJECT
 
 public:
-    TheButtonInfo* info;
+    TheButtonInfo *info{};
 
-     TheButton(QWidget *parent) :  QPushButton(parent) {
-         setIconSize(QSize(200,110));
-         setStyleSheet("QPushButton {\
-                           border: 0px solid #333333;\
-                           padding: 4px;\
+    explicit TheButton(QWidget *parent) : QPushButton(parent) {
+        setIconSize(QSize(200, 110));
+        setStyleSheet("QPushButton {\
+                           padding: 7px;\
                            border-radius: 10px;\
                            background-color: rgb(255,255,255);\
                        }\
@@ -41,18 +40,21 @@ public:
                        QPushButton:disabled {\
                            color: #333333;\
                        }");
-         // if QPushButton clicked...then run clicked() below
-         connect(this, SIGNAL(released()), this, SLOT (clicked() ));
+        // if QPushButton clicked...then run clicked() below
+        connect(this, SIGNAL(released()), this, SLOT (clicked()));
     }
 
-    void init(TheButtonInfo* i);
+    void init(TheButtonInfo *i);
 
 private slots:
+
     void clicked();
-    void searchBtn(QString text);
+
+    void searchBtn(const QString &text);
 
 signals:
-    void jumpTo(TheButtonInfo*);
+
+    void jumpTo(TheButtonInfo *);
 
 };
 

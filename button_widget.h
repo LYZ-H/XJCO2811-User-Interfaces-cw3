@@ -13,9 +13,9 @@
 #include "full_screen.h"
 
 class ButtonWidget : public QWidget {
-    Q_OBJECT
+Q_OBJECT
 public:
-    ButtonWidget() :  QWidget() {}
+    ButtonWidget() : QWidget() {}
 
 public:
     VolumeButton *muteButton = new VolumeButton(this);

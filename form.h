@@ -7,24 +7,28 @@
 #include "video_search.h"
 
 namespace Ui {
-class Form;
+    class Form;
 }
 
-class Form : public QWidget
-{
-    Q_OBJECT
+class Form : public QWidget {
+Q_OBJECT
 
 public:
     explicit Form(QWidget *parent = nullptr,
-                  QScrollArea* videoScroller = nullptr,
-                  videoSearch* searchBox = nullptr);
-    ~Form();
+                  QScrollArea *videoScroller = nullptr,
+                  VideoSearch *searchBox = nullptr,
+                  QLabel *label = nullptr);
+
+    ~Form() override;
 
 public:
-    void resizeEvent(QResizeEvent *event);
-    Ui::Form *ui;
-    QScrollArea* videoScroller;
-    videoSearch* searchBox;
+    void resizeEvent(QResizeEvent *event) override;
+
+    Ui::Form *ui{};
+    QScrollArea *videoScroller;
+    VideoSearch *searchBox;
+    QLabel *label;
+
 };
 
 #endif // FORM_H
