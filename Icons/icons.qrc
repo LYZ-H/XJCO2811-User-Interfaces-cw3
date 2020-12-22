@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>back.svg</file>
+        <file>backwardSkipBtn.svg</file>
+        <file>fill.svg</file>
+        <file>forwardSkipBtn.svg</file>
+        <file>muteButton.svg</file>
+        <file>next.svg</file>
+        <file>volume.svg</file>
+        <file>iconfont.svg</file>
+        <file>def.png</file>
+    </qresource>
+</RCC>
