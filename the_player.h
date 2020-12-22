@@ -6,7 +6,6 @@
 #include <QMediaPlayer>
 #include <vector>
 #include <QTimer>
-
 #include "the_button.h"
 
 using namespace std;

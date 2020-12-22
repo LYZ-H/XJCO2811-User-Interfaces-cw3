@@ -8,7 +8,6 @@
 #include <QLineEdit>
 #include <vector>
 #include <QLabel>
-
 #include "the_button.h"
 
 using namespace std;
