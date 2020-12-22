@@ -50,7 +50,7 @@ vector<TheButtonInfo> thumbMatch(const QString &f, vector<TheButtonInfo> out, in
             // add to the output list
             out.emplace_back(url, ico, index);
         } else {
-            thumb = f.left(f.length() - 5) + "def.png";
+            thumb = ":/def.png";
             if (QFile(thumb).exists()) { // if a png thumbnail exists
                 imageReader = new QImageReader(thumb);
                 sprite = imageReader->read(); // read the thumbnail
@@ -65,7 +65,7 @@ vector<TheButtonInfo> thumbMatch(const QString &f, vector<TheButtonInfo> out, in
             }
         }
     } else {
-        thumb = f.left(f.length() - 5) + "def.png";
+        thumb = ":/def.png";
         if (QFile(thumb).exists()) { // if a png thumbnail exists
             auto *imageReader = new QImageReader(thumb);
             QImage sprite = imageReader->read(); // read the thumbnail

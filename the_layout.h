@@ -36,7 +36,6 @@ public:
 
 private:
     QList<QLayoutItem*> list_;
-    QScrollArea *scrollAreaPart{};
 };
 
 #endif // THE_LAYOUT_H

@@ -25,7 +25,6 @@ add_executable(app
         the_layout.h
         the_pause.h
         the_player.h
-        tomeo.h
         video_search.h
         video_slider.h
         video_volume.h
@@ -33,7 +32,7 @@ add_executable(app
 
         length_label.cpp
         the_button.cpp
-        the_player.cpp
+        the_layout.cpp
         the_pause.cpp
         the_player.cpp
         tomeo.cpp
